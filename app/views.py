@@ -16,7 +16,7 @@ def login():
     if form.validate_on_submit() and request.method=='POST':
     	#print request.method
     	flash('Series requested is : '+form.seriesName.data)
-    	message = "30 rock"
+    	message = form.seriesName.data
         message =  helperFunctions.processSeriesString(message)
 
     	message[1] = message[1]+".json"
