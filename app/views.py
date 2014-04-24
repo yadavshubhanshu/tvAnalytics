@@ -4,14 +4,10 @@ from app import app
 from flask import Flask,render_template, flash, redirect, request, url_for
 from forms import LoginForm
 
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html')
-
-
-@app.route('/login', methods = ['GET', 'POST'])
-def login():
+@app.route('/',methods = ['GET', 'POST'])
+@app.route('/index',methods = ['GET', 'POST'])
+@app.route('/searchSeries', methods = ['GET', 'POST'])
+def searchSeries():
     form = LoginForm()
     if form.validate_on_submit() and request.method=='POST':
     	#print request.method
