@@ -1,15 +1,15 @@
-BOT_NAME = 'imdb_sample'
+BOT_NAME = 'imdbCrawler'
 
-SPIDER_MODULES = ['imdb_sample.spiders']
-NEWSPIDER_MODULE = 'imdb_sample.spiders'
+SPIDER_MODULES = ['imdbCrawler.spiders']
+NEWSPIDER_MODULE = 'imdbCrawler.spiders'
 
 DATABASE = {
 			'drivername': 'mysql+mysqldb',
-            'username': 'root',
+            'username': 'shubhanshu',
             'password': 'password',
             'database': 'imdbDatabase'
             }
 
 ITEM_PIPELINES = {
-    'imdb_sample.pipelines.imdbItemPipeline':300
+    'imdbCrawler.pipelines.imdbItemPipeline':300
 }

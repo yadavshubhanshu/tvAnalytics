@@ -2,7 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.http import Request
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from imdb_sample.items import imdbItem
+from imdbCrawler.items import imdbItem
 from itertools import izip
 import time
 

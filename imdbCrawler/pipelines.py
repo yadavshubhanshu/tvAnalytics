@@ -14,7 +14,7 @@ class imdbItemPipeline(object):
 
 	def process_item(self, item, spider):
 		session = self.Session()
-		imdb_sample = imdbItem(**item)
-		session.add(imdb_sample)
+		imdbCrawler = imdbItem(**item)
+		session.add(imdbCrawler)
 		session.commit()
 		return item

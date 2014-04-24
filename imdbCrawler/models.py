@@ -13,7 +13,7 @@ def create_imdbItem_table(engine):
     DeclarativeBase.metadata.create_all(engine)
  
 class imdbItem(DeclarativeBase):
-    __tablename__ = "imdb_sample"
+    __tablename__ = "imdbCrawler"
  
     id = Column(Integer, primary_key=True)
     showName = Column('showName', String(400))
