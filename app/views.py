@@ -2,13 +2,13 @@ import os,subprocess
 import helperFunctions
 from app import app
 from flask import Flask,render_template, flash, redirect, request, url_for
-from forms import LoginForm
+from forms import SearchForm
 
 @app.route('/',methods = ['GET', 'POST'])
 @app.route('/index',methods = ['GET', 'POST'])
 @app.route('/searchSeries', methods = ['GET', 'POST'])
 def searchSeries():
-    form = LoginForm()
+    form = SearchForm()
     if form.validate_on_submit() and request.method=='POST':
     	#print request.method
     	flash('Series requested is : '+form.seriesName.data)
