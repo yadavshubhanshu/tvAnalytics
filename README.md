@@ -1,5 +1,5 @@
-<h1><strong>TV Analytics</strong></h1><br>
-<h2>By Shubhanshu Yadav</h2><br>
+<h2><strong>TV Analytics</strong><br>
+By Shubhanshu Yadav</h2><br>
 In order to test the website using the flask development server first execute setyp.py (sets up the python virtual evironment) and then run.py <br>
 Once the server is running go to localhost:5000 or localhost:5000/searchSeries<br>
 Enter the name of a TV show in the text box. <br>
