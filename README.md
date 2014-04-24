@@ -1,8 +1,8 @@
 TV Analytics
 
 By Shubhanshu Yadav
-
-In order to test the website using the flask development server first execute setyp.py (sets up the python virtual evironment) and then run.py \n
+<br><br>
+In order to test the website using the flask development server first execute setyp.py (sets up the python virtual evironment) and then run.py 
 
 Once the server is running go to localhost:5000 or localhost:5000/searchSeries
 
