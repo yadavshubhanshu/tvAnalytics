@@ -45,12 +45,16 @@ div.tooltip {
 </div>
 
 <script>
-
+//Setting the colors to be used for data points
 var colors = ["#79e6f2","#f2da79","#b779f2","#79f294","#f27981","#79a4f2","#c8f279","#f279eb","#79f2d5","#f2b279"];
+
+//Helper function for processing episode number Strings
 function processEpisodeNumbers(str)
 {
 	return (parseInt(str[0])*100+parseInt(str[1]))/100;
 }
+
+
 var	margin = {top: 100, right: 20, bottom: 100, left: 50},
 	width = parseInt(d3.select("#lineChart").style("width")) - margin.left - margin.right,
 	height = parseInt(d3.select("#lineChart").style("height")) - margin.top - margin.bottom;				
@@ -63,12 +67,14 @@ var	xAxis = d3.svg.axis().scale(xScale)
 var	yAxis = d3.svg.axis().scale(yScale)
 						.orient("left");		
 
+//Setting the line points according to the xScale, yScale scaling factors
 var	valueline = d3.svg.line()
 					.interpolate("cardinal")
 					.x(function(d) { return xScale(d.key1); })
 					.y(function(d) { return yScale(d.value.episodeRating); });
 
 
+//Appending tooltip to the body.
 var div = d3.select("body").append("div")
 						.attr("class", "tooltip")
 						.style("opacity", 0);
@@ -84,6 +90,8 @@ var	lineChart = d3.select("#lineChart")
 // Get the data
 d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 	data = d3.entries(data);
+
+	//For each data point, generate its key(which will be episode number) and its corresponding color.
 	data.forEach(function(d){
 		d.key = processEpisodeNumbers(d.value.episode.replace(/\D/g,' ').trim().split(/\s+/));
 		d.value.colors = colors[(~~d.key)%10]
@@ -94,9 +102,12 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 	data = data.sort(function(a, b) {
 		return d3.ascending(a.key, b.key);
 	});
+
+
 	data.forEach(function(d){
 		d.key1 = data.indexOf(d)+1;
 	});
+	
 	
 	data.forEach(function(d) {
 		//d.episode = d.episode.replace(/\D/g,'');
@@ -113,12 +124,16 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 		]
 	);	
 	//xAxis.tickValues(data.map(function(d) { return d.key1;}))
-	// Add the valueline path.
 	
+
+	// Add the valueline path.
 	lineChart.append("path")// append the valueline line to the 'path' element
 			.attr("class", "line")// apply the 'line' CSS styles to this path
 			.attr("d", valueline(data));// call the 'valueline' finction to draw the line
 	
+	
+	//Create Circles for data points and attach tooltip on mousehover event
+	//Attach click event to circles which will take us to a online video streaming link
 	lineChart.selectAll("dot")
 			.data(data)
 			.enter().append("circle")
@@ -168,6 +183,7 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 			//	return "rotate(-65)";
 			//});
 
+	//Attach xAxis title
 	lineChart.append("text")
 			.attr("class","xAxisTitle")
 			.attr("x",width/2)
@@ -176,10 +192,13 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 			.text("Episode Number");
 
 
+	//Attach yAxis
 	lineChart.append("g")// append the y axis to the 'g' (grouping) element
 			.attr("class", "y axis")// apply the 'axis' CSS styles to this path
 			.call(yAxis);// call the yAxis function to draw the axis
 
+
+	//Attach yAxis title		
 	lineChart.append("text")
 		.attr("class","yAxisTitle")
 		.attr("transform","rotate(-90)")
@@ -189,6 +208,9 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 		.style("text-anchor","middle")
 		.text("Episode Rating");
 
+
+
+	//Attach Chart Title
 	lineChart.append("text")
 		.attr("x", (width / 2))
 		.attr("y", 0 - (margin.top / 2))
@@ -197,6 +219,8 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 		.style("text-decoration", "bold")
 		.text("IMDB Rating of episodes");
 
+
+	//This function recalibrates the chart based on the change in the browser window size
 	function resize() {
 		var win = window,
 		doc = document,
@@ -207,25 +231,29 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 		
 		var width = 0.75*baseWidth+ margin.left + margin.right,
 		height = baseHeight- margin.top - margin.bottom;
-		
+	
+
 		/* Update the range of the scale with new width/height */
 		xScale.range([0, width]);
 		yScale.range([height, 0]).nice();
 	
+
 		/* Update the axis with the new scale */
 		xAxis.ticks(Math.max(width/50, 2));
 		yAxis.ticks(Math.max(height/50, 2));
 			
+	
+		/* Force D3 to recalculate and update the line, circles, xAxis, yAxis, xAxisTitle and yAxisTitle */
 		lineChart.select('.x.axis')
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis);
 
 		lineChart.select('.y.axis')
 			.attr("y",0-margin.left)
-				.attr("x",0-(height/2))
+			.attr("x",0-(height/2))
 			.call(yAxis);
 		
-		/* Force D3 to recalculate and update the line, circles, xAxisTitle and yAxisTitle */
+		
 		lineChart.selectAll('.line')
 			.transition()
 			.attr("d", valueline(data))
@@ -255,6 +283,7 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 	}
 	
 	
+	//Call the resize function once the page is ready
 	var checkLoad = function() {
 		document.readyState !== "complete" ? setTimeout(checkLoad,11) : resize();
 	};
