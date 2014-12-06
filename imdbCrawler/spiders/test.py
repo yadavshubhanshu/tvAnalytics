@@ -1,7 +1,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.http import Request
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
-from scrapy.selector import HtmlXPathSelector
+from scrapy.selector import Selector
 from imdbCrawler.items import imdbItem
 from itertools import izip
 import time
@@ -26,12 +26,13 @@ class MySpider(CrawlSpider):
     #    list(self.parse_items(response))
     
     def parse_items(self, response):
-        hxs = HtmlXPathSelector(response)
-       
+        print "came here"
+        hxs = Selector(response)
         data = imdbItem()
         data["seriesRating"] = hxs.xpath('//span[@itemprop="ratingValue"]/text()').extract()
-        seasonLink = hxs.xpath('//div[@id="titleTVSeries"]/div[1]//span[@class="see-more inline"]/a/@href').extract()
-    
+        print data["seriesRating"]
+        seasonLink = hxs.xpath('//*[@id="title-episode-widget"]/div/div[3]/a/@href').extract()
+        print seasonLink
         #Directly go to ratings page
         '''
         if not seasonLink==[]:
@@ -52,7 +53,7 @@ class MySpider(CrawlSpider):
      
 
     def parse_season_links(self,response):
-        episodeSelector = HtmlXPathSelector(response)
+        episodeSelector = Selector(response)
         episodeLinks = episodeSelector.xpath('//div[@itemprop="episodes"]//strong/a/@href').extract()
 
         for episode in episodeLinks:
@@ -62,7 +63,7 @@ class MySpider(CrawlSpider):
             yield request
 
     def parse_episode_data(self,response):
-        episodeDataSelector = HtmlXPathSelector(response)
+        episodeDataSelector = Selector(response)
         
         dataInitial = response.meta['item']
         data = imdbItem()
@@ -80,7 +81,7 @@ class MySpider(CrawlSpider):
 
     #deprecated for now
     def parse_episode_ratings(self,response):
-        hxs = HtmlXPathSelector(response)
+        hxs = Selector(response)
     
         ratingsData = []
         ratingsRawData = hxs.xpath('//td[@align="right"]/text()').extract()
