@@ -7,6 +7,13 @@ path {
 	stroke-width: 5;			/* the line width for paths is 2 pixels */
 	fill: none;					/* don't fill the area bounded by any path elements */
 }
+
+body { 
+  margin:0; 
+  padding:0; 
+  height:100%; 
+}
+
 .axis path,
 .axis line {
 	fill: none;					/* don't fill areas bounded by the axis line */
@@ -30,8 +37,11 @@ div.tooltip {
 	background: url(./static/assets/darkbg.jpg) no-repeat center top;
 	color:#eee;
 	overflow:hidden;
+	height:100vh; 
+	width: 100%;
 	-webkit-font-smoothing: antialiased;
 	-webkit-overflow-scrolling: touch;
+
 }
 </style>
 
@@ -81,8 +91,8 @@ var div = d3.select("body").append("div")
 
 var	lineChart = d3.select("#lineChart")
 				//.append("svg")
-				.attr("width", width + margin.left + margin.right)	// Set the 'width' of the svg element
-				.attr("height", height + margin.top + margin.bottom)// Set the 'height' of the svg element
+				//.attr("width", width + margin.left + margin.right)	// Set the 'width' of the svg element
+				//.attr("height", height + margin.top + margin.bottom)// Set the 'height' of the svg element
 				.append("g")								// Append 'g' to the html 'body' of the web page
 				.attr("transform", "translate(" + margin.left + "," + margin.top + ")"); 
 
@@ -226,8 +236,8 @@ d3.json("{{ url_for('static',filename=showName)}}", function(error, data) {
 		doc = document,
 		e = doc.documentElement,
 		g = doc.getElementsByTagName('body')[0],
-		baseWidth = win.innerWidth || e.clientWidth || g.clientWidth,
-		baseHeight = win.innerHeight|| e.clientHeight|| g.clientHeight;
+		baseWidth = doc.getElementById("lineChart").clientWidth || win.innerWidth || e.clientWidth || g.clientWidth,
+		baseHeight = doc.getElementById("lineChart").clientHeight || win.innerHeight|| e.clientHeight|| g.clientHeight;
 		
 		var width = 0.75*baseWidth+ margin.left + margin.right,
 		height = baseHeight- margin.top - margin.bottom;

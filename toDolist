@@ -1,8 +1,12 @@
-create a search bar in flask
-pass value of that search bar to python
-run query on databaseyy
-if not found on database,run python script
-write values to database
-query again
-combine data with d3 to generate charts
+Create a login system for the user
+Get user's favorite shows - ones that he is currently watching
+Get release dates of those shows
+Get the probabilistic rating of those shows
+Display
 
+
+1. Create a login system
+	- Openid or base login? - Openid - done
+	- Create a db to store all of these user info - done
+	- Get user's profile info - done
+	- Create a db to store their preferences(expand later)
